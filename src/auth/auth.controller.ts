@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpException, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -26,23 +28,16 @@ export class AuthController {
     }
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.authService.findAll();
-  // }
+  @Post('refresh')
+  @UseGuards(JwtAuthGuard)
+  refresh(@Req() req: Request) {
+    try {
+      const user = req.user
+      return this.authService.refresh(user)
+    } catch (error: any) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.authService.findOne(+id);
-  // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-  //   return this.authService.update(+id, updateAuthDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.authService.remove(+id);
-  // }
 }

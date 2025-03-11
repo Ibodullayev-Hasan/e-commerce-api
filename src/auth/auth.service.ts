@@ -48,6 +48,7 @@ export class AuthService {
     }
   }
 
+  // login
   async login(loginDto: LoginDto): Promise<{
     accessToken: string,
     accessExpiresIn: string,
@@ -71,19 +72,25 @@ export class AuthService {
     }
   }
 
-  // findAll() {
-  //   return `This action returns all auth`;
-  // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} auth`;
-  // }
+  // refresh
+  async refresh(user: User): Promise<{
+    accessToken: string,
+    accessExpiresIn: string,
+    refreshToken: string,
+    refreshExpiresIn: string
+  }> {
+    try {
+      const tokens = await this.tokenService.generator(user)
 
-  // update(id: number, updateAuthDto: UpdateAuthDto) {
-  //   return `This action updates a #${id} auth`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} auth`;
-  // }
+      return {
+        accessToken: tokens.accToken,
+        accessExpiresIn: tokens.accessExpiresIn,
+        refreshToken: tokens.refToken,
+        refreshExpiresIn: tokens.refreshExpiresIn
+      }
+    } catch (error: any) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 }
