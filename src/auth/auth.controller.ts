@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -9,9 +10,20 @@ export class AuthController {
 
   @Post('register')
   create(@Body() userDto: CreateUserDto) {
-    console.log(userDto);
-    
-    return this.authService.register(userDto)
+    try {
+      return this.authService.register(userDto)
+    } catch (error: any) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Post('login')
+  login(@Body() loginDto: LoginDto) {
+    try {
+      return this.authService.login(loginDto)
+    } catch (error: any) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   // @Get()
