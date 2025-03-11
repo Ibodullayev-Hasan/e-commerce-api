@@ -49,7 +49,7 @@ export class TokenGenerator {
 
 			return {
 				accToken: encryptedAccToken,
-				accessExpiresIn: accessDate.toLocaleString(), // ISO formatda saqlash yaxshiroq
+				accessExpiresIn: accessDate.toLocaleString(), 
 				refToken: encryptedRefToken,
 				refreshExpiresIn: refreshDate.toLocaleString()
 			};
