@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { setupGlobalPipes } from './configs';
 import { NotFoundExceptionFilter } from './filters/http-exception.filter';
+import { setUpswagger } from './configs/swagger.config';
+import { corsConfig } from './configs/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +13,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1')
 
+  corsConfig(app)
+  setUpswagger(app)
   setupGlobalPipes(app)
 
   app.useGlobalFilters(new NotFoundExceptionFilter())

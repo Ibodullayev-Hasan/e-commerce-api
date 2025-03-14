@@ -14,8 +14,8 @@ export class ResponseFormatterInterceptor implements NestInterceptor {
 			catchError((error) => {
 
 				if (error instanceof HttpException) {
-					const response = error.getResponse(); 
-
+					const response = error.getResponse(); 			
+					
 					return throwError(() => 
 						new HttpException(
 							{
@@ -27,7 +27,7 @@ export class ResponseFormatterInterceptor implements NestInterceptor {
 					);
 				}
 
-				// Agar boshqa xato bo‘lsa, uni oddiy formatda qaytaramiz
+				
 				return throwError(() => 
 					new HttpException(
 						{

@@ -1,8 +1,8 @@
 {
   "name": "e-commerce-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "e-commerce-api",
+  "author": "Ibodullayev.H",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -26,6 +26,7 @@
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^8.1.0",
     "@nestjs/typeorm": "^11.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",

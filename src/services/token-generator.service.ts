@@ -29,7 +29,7 @@ export class TokenGenerator {
 				throw new HttpException('Missing secret keys', HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 
-			const payload = { sub: user.id, email: user.email };
+			const payload = { sub: user.id, email: user.email, role: user.role };
 
 			const [accToken, refToken] = await Promise.all([
 				this.jwtService.signAsync(payload, { secret: this.jwtSecretKey, expiresIn: this.accessTime, algorithm: "HS512" }),
@@ -49,7 +49,7 @@ export class TokenGenerator {
 
 			return {
 				accToken: encryptedAccToken,
-				accessExpiresIn: accessDate.toLocaleString(), 
+				accessExpiresIn: accessDate.toLocaleString(),
 				refToken: encryptedRefToken,
 				refreshExpiresIn: refreshDate.toLocaleString()
 			};

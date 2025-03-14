@@ -1,1 +1,6 @@
-export  * from "../users/entities/user.entity"
+export * from "../users/entities/user.entity"
+export * from "../categories/entities/category.entity"
+export * from "../products/entities/product.entity"
+export * from "../basket/entities/basket.entity"
+export * from "../basket/entities/basketItem.entitie"
+export * from "../orders/entities/order.entity"

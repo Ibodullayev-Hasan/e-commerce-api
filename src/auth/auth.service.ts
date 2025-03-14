@@ -29,7 +29,7 @@ export class AuthService {
 
       const newUser: User = this.userRepository.create(userDto)
 
-      const hashedPassword: string = await bcryptjs.hash(newUser.password, 10)
+      const hashedPassword: string = await bcryptjs.hash(newUser.password, 8)
       newUser.password = hashedPassword
 
       const [savedUser, token] = await Promise.all([
@@ -59,6 +59,9 @@ export class AuthService {
       const user: User = await this.userRepository.findOne({ where: { email: loginDto.email } })
       if (!user) throw new UnauthorizedException(`Unauthorized user!`)
 
+      const checkPassword = await bcryptjs.compare(loginDto.password, user.password)
+      if (!checkPassword) throw new UnauthorizedException(`Incorrect password`)
+
       const tokens = await this.tokenService.generator(user)
 
       return {
@@ -77,8 +80,6 @@ export class AuthService {
   async refresh(user: User): Promise<{
     accessToken: string,
     accessExpiresIn: string,
-    refreshToken: string,
-    refreshExpiresIn: string
   }> {
     try {
       const tokens = await this.tokenService.generator(user)
@@ -86,8 +87,6 @@ export class AuthService {
       return {
         accessToken: tokens.accToken,
         accessExpiresIn: tokens.accessExpiresIn,
-        refreshToken: tokens.refToken,
-        refreshExpiresIn: tokens.refreshExpiresIn
       }
     } catch (error: any) {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR)

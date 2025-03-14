@@ -1,85 +1,100 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Oddiy E-Commerce API (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Ushbu loyiha NestJS yordamida yaratilgan oddiy e-commerce platformasi uchun RESTful API hisoblanadi.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 1. Texnik Talablar
 
-## Description
+### 1.1 Texnologiyalar To‘plami
+- **Backend:** NestJS (TypeScript)
+- **Ma’lumotlar bazasi:** PostgreSQL + TypeORM
+- **Autentifikatsiya:** JWT (Access & Refresh tokenlar)
+- **Role-based access:** Admin va Foydalanuvchi
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 1.2 Umumiy Talablar
+- Global Interceptor-lardan foydalanish orqali javob formatini to‘g‘ri shakllantirish.
+- Xatoliklarni to‘g‘ri boshqarish.
+- Swagger yordamida API testing tizimini o‘rnatish.
 
-## Project setup
+## 2. Funksional Imkoniyatlar
 
-```bash
-$ npm install
+### 2.1 Autentifikatsiya Moduli
+**Endpointlar:**
+- `POST /auth/register` → Yangi foydalanuvchi ro‘yxatdan o‘tishi *(public route)*
+- `POST /auth/login` → Access & refresh tokenlarni olish *(public route)*
+- `POST /auth/refresh` → Refresh token orqali yangi access token olish *(public route)*
+
+### 2.2 Foydalanuvchi Moduli
+**Endpointlar:**
+- `GET /users` → Barcha foydalanuvchilarni olish *(Admin only)*
+- `GET /users/:id` → ID orqali foydalanuvchini olish *(Admin only)*
+- `GET /users/self-info` → O‘z profil ma’lumotlarini olish *(User only)*
+- `PATCH /users/:id` → Profilni yangilash *(User only)*
+- `DELETE /users/:id` → Foydalanuvchini o‘chirish *(Admin only)*
+- `DELETE /users/self-delete` → O‘z profilini o‘chirish *(User only)*
+
+### 2.3 Kategoriya Moduli
+**Endpointlar:**
+- `POST /categories` → Yangi kategoriya yaratish *(Admin only)*
+- `GET /categories` → Barcha kategoriyalarni olish *(public route)*
+- `GET /categories/:id` → ID orqali kategoriya olish *(public route)*
+- `PATCH /categories/:id` → Kategoriyani yangilash *(Admin only)*
+- `DELETE /categories/:id` → Kategoriyani o‘chirish *(Admin only)*
+
+### 2.4 Mahsulot Moduli
+**Endpointlar:**
+- `POST /products` → Yangi mahsulot yaratish *(Admin only)*
+- `GET /products` → Barcha mahsulotlarni olish *(public route)*
+- `GET /products/:id` → ID orqali mahsulotni olish *(public route)*
+- `PATCH /products/:id` → Mahsulotni yangilash *(Admin only)*
+- `DELETE /products/:id` → Mahsulotni o‘chirish *(Admin only)*
+
+### 2.5 Savatcha Moduli
+**Endpointlar:**
+- `POST /baskets/add` → Savatchaga mahsulot qo‘shish *(User only)*
+- `GET /baskets` → Foydalanuvchining savatchasini olish *(User only)*
+- `PATCH /baskets/update/:id` → Savatchadagi mahsulot miqdorini o‘zgartirish *(User only)*
+- `DELETE /baskets/remove/:id` → Savatchadan mahsulotni olib tashlash *(User only)*
+- `DELETE /baskets/clear` → Savatchani tozalash *(User only)*
+
+### 2.6 Buyurtma Moduli
+**Endpointlar:**
+- `POST /orders` → Yangi buyurtma yaratish *(User only)*
+- `GET /orders` → Barcha buyurtmalarni olish *(Admin only)*
+- `GET /self-orders` → Foydalanuvchining buyurtmalarini olish *(User only)*
+- `GET /orders/:id` → ID orqali buyurtmani olish
+
+## 3. Loyihani Ishga Tushirish
+
+### 3.1 Talablar
+Quyidagi dasturlar o‘rnatilgan bo‘lishi kerak:
+- Node.js (v16 yoki undan yuqori)
+- PostgreSQL
+
+### 3.2 O‘rnatish
+1. Repodan nusxa oling:
+   ```sh
+   git clone  https://github.com/Ibodullayev-Hasan/e-commerce-api.git 
+   cd your-repo
+   ```
+2. Kerakli kutubxonalarni o‘rnatish:
+   ```sh
+   npm install
+   ```
+3. `.env` faylini yaratib, kerakli konfiguratsiyani sozlang (`.env.example` dan nusxa olib foydalaning).
+
+4. Ishga tushirish:
+   ```sh
+   npm run start:dev
+   ```
+
+## 4. API Hujjatlari
+Loyiha ishga tushirilgandan so‘ng Swagger UI’ga quyidagi manzil orqali kirishingiz mumkin:
 ```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+http://localhost:3331/api/docs
 ```
+Bu interfeys yordamida API endpointlarini sinab ko‘rish mumkin.
 
-## Run tests
+## 5. Muhit O‘zgaruvchilari
+`.env.example` faylidan nusxa olib, kerakli qiymatlarni almashtiring.
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).

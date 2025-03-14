@@ -20,8 +20,8 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         : exception.message
 
     response.status(status).send({
+      success:false,
       message,
-      statusCode: status
     })
   }
 }

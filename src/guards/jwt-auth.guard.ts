@@ -36,18 +36,19 @@ export class JwtAuthGuard implements CanActivate {
       const decoded = await this.jwtService.verify(token, { secret: this.jwtSecretKey, })
 
       const user: User = await this.userRepo.findOne({ where: { id: decoded?.sub } })
-      if (!user) throw new UnauthorizedException(`Ro'yxatdan o'tmagan user`)
+      if (!user) throw new UnauthorizedException(`Unauthorized user!`)
 
       request.user = user
       return true
     } catch (error: any) {
-      if (error.name === "JsonWebTokenError" || error.message === "Malformed UTF-8 data") throw new UnauthorizedException("Xato token")
+      if (
+        error.name === "JsonWebTokenError" ||
+        error.message === "Malformed UTF-8 data"
+      ) throw new UnauthorizedException("Xato token")
 
       if (error.name === "TokenExpiredError") throw new UnauthorizedException("Token amal qilish muddati tugagan")
 
-      throw error instanceof HttpException
-        ? error
-        : new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(error.message, error.status || HttpStatus.BAD_REQUEST);
     }
   }
 }
