@@ -1,4 +1,4 @@
-# Oddiy E-Commerce API (NestJS)
+# E-Commerce API (NestJS)
 
 Ushbu loyiha NestJS yordamida yaratilgan oddiy e-commerce platformasi uchun RESTful API hisoblanadi.
 
